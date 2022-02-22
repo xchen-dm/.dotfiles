@@ -1,0 +1,71 @@
+#!/bin/bash
+
+file_dir="."
+file_ext=""
+find_file=""
+search_file=""
+
+function setup_find()
+{
+    file_dir="."
+    if [ $2 ]; then
+        file_dir=$1
+        find_file=$2
+    else
+        find_file=$1
+    fi
+    search_file=""
+}
+
+function setup_search()
+{
+    file_dir="."
+    if [ $2 ]; then
+        file_dir=$1
+        search_file=$2
+    else
+        search_file=$1
+    fi
+    find_file=""
+}
+
+function find_files()
+{
+    if [ -z $find_file ]; then
+        find $file_dir -path $file_dir/'build*' -prune -o  -path $file_dir/node_modules -prune -o -path $file_dir/.meteor -prune -o -iname '*'$find_file'*'$file_ext -type f 2>/dev/null | grep -v node_modules | grep -v .meteor | grep -v build
+    else
+        find $file_dir -path $file_dir/'build*' -prune -o  -path $file_dir/node_modules -prune -o -path $file_dir/.meteor -prune -o -iname '*'$find_file'*'$file_ext -type f 2>/dev/null | grep -i --color $find_file
+    fi
+} 
+
+function ff() { file_ext="";      setup_find $*;  find_files; } 
+function fj() { file_ext=".js";   setup_find $*;  find_files; } 
+function ft() { file_ext=".ts";   setup_find $*;  find_files; }
+function fw() { file_ext=".html"; setup_find $*;  find_files; } 
+function fc() { file_ext=".cpp";  setup_find $*;  find_files; } 
+function fh() { file_ext=".h";    setup_find $*;  find_files; }
+
+
+function sa() { file_ext=".*";    setup_search $*; find_files | xargs grep -C0 --color -in $search_file; } 
+function sA() { file_ext=".*";    setup_search $*; find_files | xargs grep -C0 --color -in "\<$search_file\>"; } 
+function SA() { file_ext=".*";    setup_search $*; find_files | xargs grep -C0 --color -n "\<$search_file\>"; } 
+
+function sj() { file_ext=".js";   setup_search $*; find_files | xargs grep -C0 --color -in $search_file; } 
+function sJ() { file_ext=".js";   setup_search $*; find_files | xargs grep -C0 --color -in "\<$search_file\>"; } 
+function SJ() { file_ext=".js";   setup_search $*; find_files | xargs grep -C0 --color -n "\<$search_file\>"; } 
+
+function st() { file_ext=".ts";   setup_search $*; find_files | xargs grep -C0 --color -in $search_file; } 
+function sT() { file_ext=".ts";   setup_search $*; find_files | xargs grep -C0 --color -in "\<$search_file\>"; } 
+function ST() { file_ext=".ts";   setup_search $*; find_files | xargs grep -C0 --color -n "\<$search_file\>"; } 
+
+function sw() { file_ext=".html"; setup_search $*; find_files | xargs grep -C0 --color -in $search_file; } 
+function sW() { file_ext=".html"; setup_search $*; find_files | xargs grep -C0 --color -in "\<$search_file\>"; } 
+function SW() { file_ext=".html"; setup_search $*; find_files | xargs grep -C0 --color -n "\<$search_file\>"; } 
+
+#function sh() { file_ext=".h";    setup_search $*; find_files | xargs grep --color -in $search_file; } 
+function sH() { file_ext=".h";    setup_search $*; find_files | xargs grep -C0 --color -in "\<$search_file\>"; } 
+function SH() { file_ext=".h";    setup_search $*; find_files | xargs grep -C0 --color -n "\<$search_file\>"; } 
+
+function sc() { file_ext=".cpp";  setup_search $*; find_files | xargs grep -C0 --color -in $search_file; } 
+function sC() { file_ext=".cpp";  setup_search $*; find_files | xargs grep -C0 --color -in "\<$search_file\>"; } 
+function SC() { file_ext=".cpp";  setup_search $*; find_files | xargs grep -C0 --color -n "\<$search_file\>"; } 
