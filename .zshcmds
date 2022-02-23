@@ -23,12 +23,20 @@ alias cpdata='cd ${HOME}/dm-engine && cp -rf ${HOME}/dm-test/models/stls/* test/
 
 function maked () 
 {
-    CPPFLAGS="-g $CPPFLAGS" make VERBOSE=1 $(ls -lthr | tail -1 | sed -e 's/^.*\s\+\(.*\)\.cpp$/\1/')
+    target=$1
+    if [ -z $target ]; then
+        target=$(ls -lthr | tail -1 | sed -e 's/^.*\s\+\(.*\)\.cpp$/\1/')
+    fi
+    CPPFLAGS="-g $CPPFLAGS" make VERBOSE=1 $target
 }
 
 function makeo () 
 {
-    CPPFLAGS="-O2 $CPPFLAGS" make VERBOSE=1 $(ls -lthr | tail -1 | sed -e 's/^.*\s\+\(.*\)\.cpp$/\1/')
+    target=$1
+    if [ -z $target ]; then
+        target=$(ls -lthr | tail -1 | sed -e 's/^.*\s\+\(.*\)\.cpp$/\1/')
+    fi
+    CPPFLAGS="-O2 $CPPFLAGS" make VERBOSE=1 $target
 }
 
 alias ssheg='ssh -i ~/.ssh/xianming-bastion.pem  centos@10.150.69.61'
