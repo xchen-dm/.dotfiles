@@ -21,7 +21,15 @@ alias gxc='git branch -D dev-xchen; git checkout -b dev-xchen'
 alias lstmp='ls -lcrtd /tmp/*'
 alias cpdata='cd ${HOME}/dm-engine && cp -rf ${HOME}/dm-test/models/stls/* test/data'
 
-alias maked='CPPFLAGS="-g $CPPFLAGS" make'
+function maked () 
+{
+    CPPFLAGS="-g $CPPFLAGS" make VERBOSE=1 $(ls -lthr | tail -1 | sed -e 's/^.*\s\+\(.*\)\.cpp$/\1/')
+}
+
+function makeo () 
+{
+    CPPFLAGS="-O2 $CPPFLAGS" make VERBOSE=1 $(ls -lthr | tail -1 | sed -e 's/^.*\s\+\(.*\)\.cpp$/\1/')
+}
 
 alias ssheg='ssh -i ~/.ssh/xianming-bastion.pem  centos@10.150.69.61'
 alias sshcura='ssh -i ~/.ssh/xianming-bastion.pem  centos@10.150.69.16'
