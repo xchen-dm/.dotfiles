@@ -11,10 +11,11 @@ function pgrep() {
 function rgrep() {
     find ~/dm-studio-resources/resources -name "*.json" -o -name "*.cfg" -o -name "*.xml.fdm_material" | xargs grep --color "$@"
 }
+alias flog='cd ${HOME}/Library/Application\ Support/Desktop\ Metal/Fabricate/'
 alias nv='nvim'
 alias l='ls -lthr'
 alias cdcuralog='cd "/Users/xchen/Library/Application Support/cura/master"'
-alias clog='vi "/Users/xchen/Library/Application Support/cura/master/cura.log"'
+alias clog='nv "/Users/xchen/Library/Application Support/cura/master/cura.log"'
 alias cmaker='cmake -DCMAKE_BUILD_TYPE=Release'
 alias cmaked='cmake -DCMAKE_BUILD_TYPE=Debug'
 alias gxc='git branch -D dev-xchen; git checkout -b dev-xchen'
@@ -27,7 +28,7 @@ function maked ()
     if [ -z $target ]; then
         target=$(ls -lthr | tail -1 | sed -e 's/^.*\s\+\(.*\)\.cpp$/\1/')
     fi
-    CPPFLAGS="-g $CPPFLAGS" make VERBOSE=1 $target
+    CXXFLAGS="-std=c++17 -g $CXXFLAGS" make VERBOSE=1 $target
 }
 
 function makeo () 
@@ -36,7 +37,7 @@ function makeo ()
     if [ -z $target ]; then
         target=$(ls -lthr | tail -1 | sed -e 's/^.*\s\+\(.*\)\.cpp$/\1/')
     fi
-    CPPFLAGS="-O2 $CPPFLAGS" make VERBOSE=1 $target
+    CXXFLAGS="-std=c++17 -O2 $CXXFLAGS"  make VERBOSE=1 $target
 }
 
 alias ssheg='ssh -i ~/.ssh/xianming-bastion.pem  centos@10.150.69.61'
@@ -113,7 +114,7 @@ alias cppcompile='c++ -std=c++11 -stdlib=libc++'
 alias g='git'
 
 alias lsc='ls -lcrt ~/dm-engine/tmp/*_config*.json; ls -lcrtd /tmp/*_config*json'
-alias vic='vi `ls -lcrt /tmp/*config.json | tail -1 | rev | cut -d " " -f 1 | rev`'
+alias vic='nv `ls -lcrt /tmp/*config.json | tail -1 | rev | cut -d " " -f 1 | rev`'
 alias ge='engine/geometryEngine -c `ls -lcrt /tmp/*_config*.json | tail -1 | rev | cut -d " " -f 1 | rev`'
 alias ge2='engine/geometryEngine -c `ls -lcrt ~/dm-engine/tmp/*_config*.json | tail -1 | rev | cut -d " " -f 1 | rev`'
 alias lst='ls -lcrt /tmp/*.txt'
@@ -142,6 +143,7 @@ alias mkv='make VERBOSE=1'
 alias tagf='cd ${HOME}/dm-fiber-slicer/build && ctags -R --languages=c++ --exclude=.git --exclude=build ..'
 alias tags='cd ${HOME}/dm-shop && ctags -R --languages=c++ --exclude=.git --exclude=build .'
 alias tagg='cd ${HOME}/dm-geometry-engine/build && ctags -R --languages=c++ --exclude=.git --exclude=build ..'
+alias tag='ctags -R --languages=c++ --exclude=.git --exclude=build .'
 alias tagc='cdc && ctags -R --languages=c++ --exclude=.git --exclude=macos --exclude=build ../../'
 alias tagp='ctags -R --fields=+l --languages=python --python-kinds=-iv'
 alias tagj='ctags --options=${HOME}/ctags-patterns-for-javascript/ctagsrc -R --exclude=.idea --exclude=.testing --exclude=.meteor --exclude=.desktop --exclude=.vscode --exclude=.git --exclude=tmp --exclude=node_modules --exclude=test'
@@ -344,12 +346,12 @@ function fres()
 
 function vdef()
 {
-    vi +/$1 ${HOME}/dm-cura-web/resources/definitions/fdmprinter.def.json
+    nv +/$1 ${HOME}/dm-composite/src/submodules/dm-fiber-slicer/gcode-generator/common/fdmprinter.def.json
 }
 
 function fdef()
 {
-    grep -n $1 ${HOME}/dm-cura-web/resources/definitions/*def.json 2>/dev/null
+    grep -n $1 ${HOME}/dm-composite/src/submodules/dm-fiber-slicer/gcode-generator/common/*def.json 2>/dev/null
 }
 function fdef2()
 {
